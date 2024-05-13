@@ -8,6 +8,7 @@ import {
   DynamicWagmiConnector,
 } from "../lib/dynamic";
 
+
 import { Providers } from "./providers";
 import { evmNetworks } from "@/lib/wagmi";
 import Header from "./header";
@@ -24,6 +25,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <DynamicContextProvider

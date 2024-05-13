@@ -11,8 +11,8 @@ export default function Home() {
 	<h1 className='text-4xl font-black'>Dynamic TradeX</h1>
 	<p className='text-xl font-semibold py-10'>Deposit your crypto, let experienced traders optimize your portfolio, and earn passive returns.</p>
 	{address && address.length && <div className="z-10 mx-auto mb-4">
-    <button className="py-2 px-4 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2">Trader Profile</button>
-    <button className="py-2 px-4 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2">User Profile</button>
+    <button className="py-2 px-4 w-48 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2">Trader Profile</button>
+    <button className="py-2 px-4 w-48 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2">User Profile</button>
 	</div>}
 	<div className="z-10 mx-auto mb-4">
         <DynamicWidget />

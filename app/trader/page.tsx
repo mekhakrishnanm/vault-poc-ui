@@ -24,6 +24,7 @@ export default function Home() {
         <option className="bg-white p-3" value={token.unit} key={token.name}>{token.name}</option>
       ))} 
       </select>
+      <p className="text-xs font-medium mt-2 w-full text-right pr-3">0.32 USDC Balance</p>
 
     <h3 className="mt-5 text-sm font-medium ml-3 mb-2">Buy Token</h3>
     <select className="w-80 py-2 px-4 text-sm text-black font-medium shadow-lg border rounded-lg bg-[#f0f0f0] hover:bg-[#f0f0f0]/80 mx-2">

@@ -15,7 +15,7 @@ export default function Home() {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
     const token = formData.get('token') as string
-    console.log("🚀 ~ submit ~ sellToken:", tokenId)
+    console.log("🚀 ~ submit ~ token:", token)
     const amount = Number(formData.get('amount') as string) * (10 ** tokenId.decimal)
     console.log("🚀 ~ submit ~ amount:", amount)
 
@@ -34,7 +34,6 @@ export default function Home() {
     <select onChange={(value) => {
         const tokenUnit = value.target.value
         const token = TOKENS_LIST.find(token => token.contract === tokenUnit) ?? {}
-        console.log("🚀 ~ Home ~ token:", token)
         setTokenId(token)
       }}  name="token" className="w-80 py-2 px-4 text-sm text-black font-medium shadow-lg border rounded-lg bg-[#f0f0f0] hover:bg-[#f0f0f0]/80 mx-2">
       {TOKENS_LIST.map(token => (

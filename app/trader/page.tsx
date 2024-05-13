@@ -36,7 +36,6 @@ export default function Home() {
       <select name="sellToken" onChange={(value) => {
         const tokenUnit = value.target.value
         const token = TOKENS_LIST.find(token => token.contract === tokenUnit) ?? {}
-        console.log("🚀 ~ Home ~ token:", token)
         setTokenId(token)
       }} className="w-80 py-2 px-4 text-sm text-black font-medium shadow-lg border rounded-lg bg-[#f0f0f0] hover:bg-[#f0f0f0]/80 mx-2">
         {TOKENS_LIST.map(token => (

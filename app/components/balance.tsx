@@ -4,7 +4,6 @@ import { ERC20_ABI } from '@/lib/contracts'
 import { useEffect, useState } from 'react'
 import { exponentialToNumber } from '@/lib/functions'
 export default function Balance({ token }: { token: any }) {
-	console.log("🚀 ~ Balance ~ token:", token)
 	const [balance, setBalance] = useState<number>(0)
 
 	// Call your hook at the top level of your component
@@ -16,9 +15,7 @@ export default function Balance({ token }: { token: any }) {
 	})
 
 	useEffect(() => {
-		console.log("🚀 ~ useEffect ~ balanceData:", balanceData)
 		const bal = exponentialToNumber(Number(balanceData))
-		console.log('🚀 ~ useEffect ~ bal:', bal)
 		setBalance(Number(bal))
 	}, [balanceData])
 

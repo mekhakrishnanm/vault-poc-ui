@@ -4,9 +4,9 @@ import { DynamicWidget } from "../../lib/dynamic";
 import { useAccount,  } from "wagmi";
 import { TOKENS_LIST } from "@/lib/contracts";
 import { useState } from "react";
-import Balance from "../components/balance";
+import Balance from "../../components/balance";
 
-export default function Home() {
+export default function Trader() {
   const { address } = useAccount()
 
   const [tokenId, setTokenId] = useState<any>(TOKENS_LIST[0])

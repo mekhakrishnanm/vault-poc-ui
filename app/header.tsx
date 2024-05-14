@@ -2,11 +2,11 @@
 import { useRouter } from "next/navigation";
 import { DynamicWidget } from "../lib/dynamic";
 import { useReadContract } from 'wagmi'
-import { vaultMangerContract } from "@/lib/contracts";
+import { assetVaultContract } from "@/lib/contracts";
 export default function Header() {
     const router = useRouter()
     // const { data: trader } = useReadContract({
-    //   ...vaultMangerContract,
+    //   ...assetVaultContract,
     //   functionName: 'getTraderContract',
     // })
     return (

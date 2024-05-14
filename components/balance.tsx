@@ -1,9 +1,10 @@
 'use client'
-import { useReadContract } from 'wagmi'
+import { useAccount, useReadContract } from 'wagmi'
 import { ERC20_ABI } from '@/lib/contracts'
 import { useEffect, useState } from 'react'
 import { exponentialToNumber } from '@/lib/functions'
 export default function Balance({ token }: { token: any }) {
+	const { address } = useAccount()
 	const [balance, setBalance] = useState<number>(0)
 
 	// Call your hook at the top level of your component
@@ -11,7 +12,7 @@ export default function Balance({ token }: { token: any }) {
 		address: token?.contract ? (token?.contract as `0x${string}`) : '0x000000',
 		abi: ERC20_ABI,
 		functionName: 'balanceOf',
-		args: ['0xAbb6c94E23cdA58BfB0ee135Eb974fAC4D0afcA7'],
+		args: [address],
 	})
 
 	useEffect(() => {

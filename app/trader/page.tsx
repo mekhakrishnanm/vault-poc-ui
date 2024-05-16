@@ -1,33 +1,58 @@
 "use client"
 import Image from "next/image";
 import { DynamicWidget } from "../../lib/dynamic";
-import { useAccount,  } from "wagmi";
-import { TOKENS_LIST } from "@/lib/contracts";
-import { useState } from "react";
+import { useAccount, useWaitForTransactionReceipt, useWriteContract,  } from "wagmi";
+import { TOKENS_LIST, assetVaultContract } from "@/lib/contracts";
+import { useEffect, useState } from "react";
 import Balance from "../../components/balance";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Trader() {
   const { address } = useAccount()
+  const { toast } = useToast()
 
   const [tokenId, setTokenId] = useState<any>(TOKENS_LIST[0])
+	const [tokenAmount, setTokenAmount] = useState<number>(0)
+  const { data: hash, writeContract, failureReason } = useWriteContract()
+
+
+  useEffect(() => {
+    if(failureReason){
+    toast({
+      title: "Transaction Failed",
+      description: "Please try again",
+    })
+  }
+  }, [failureReason, toast])
 
   async function submit(e: React.FormEvent<HTMLFormElement>) {
+    try {
+      
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
     const sellToken = formData.get('sellToken') as string
-    console.log("🚀 ~ submit ~ sellToken:", sellToken)
     const buyToken = formData.get('buyToken') as string
-    console.log("🚀 ~ submit ~ buyToken:", buyToken)
     const amount = Number(formData.get('amount') as string) * (10 ** tokenId.decimal)
-    console.log("🚀 ~ submit ~ amount:", amount)
-
     // Execute trade 
+    writeContract({
+      ...assetVaultContract,
+    functionName: 'trade',
+    args: [sellToken, (amount), buyToken],
+  })
+} catch (error) {
+  console.log("🚀 ~ submit ~ error:", error)
+  
+}
     
   }
+  const { isLoading, isSuccess } = useWaitForTransactionReceipt({
+    hash,
+  });
   return (
 
 	<main className="min-h-screen relative flex align-center justify-center text-center flex-col text-black">
 	<h1 className='text-2xl font-semibold'>Trade Tokens on TradeX</h1>
+
 	<p className='text-base font-semibold py-10'>Trade crypto on TradeX and earn a part of the profit.</p>
 	{(address && address.length) ? <div className="z-10 mx-auto mb-4">
     <form onSubmit={submit}>
@@ -51,9 +76,16 @@ export default function Trader() {
         </select>
 
         <h3 className="mt-5 text-sm font-medium ml-3 mb-2">Sell Token Amount</h3>
-        <input name="amount" className="w-80 py-2 px-4 text-sm text-black font-medium shadow-lg border rounded-lg bg-[#f0f0f0] hover:bg-[#f0f0f0]/80 mx-2" type="number" placeholder="Amount" />
+        <input
+											onChange={(value) => {
+												const amount = Number(value.target.value)
+												setTokenAmount(amount)
+											}}
+											value={tokenAmount}
+											step="0.01"
+                       name="amount" className="w-80 py-2 px-4 text-sm text-black font-medium shadow-lg border rounded-lg bg-[#f0f0f0] hover:bg-[#f0f0f0]/80 mx-2" type="number" placeholder="Amount" />
         {/* <p className="text-xs font-medium mt-2 mb-3 w-full text-right pr-3">0.32 USDC Balance</p> */}
-        <Balance token={(() => tokenId)()}  />
+        <Balance token={(() => tokenId)()} isContract={true}  />
       </div>
       <button type="submit" className="w-48 py-2 px-4 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2">Trade</button>
     </form>

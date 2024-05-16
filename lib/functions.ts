@@ -1,15 +1,11 @@
-export function exponentialToNumber(exponential: any): string {
-    // Ensure the input is a string to handle all cases correctly
-    let str = exponential.toString();
-    
-    if (str.includes('e') || str.includes('E')) {
-        // Split the string at 'e' or 'E'
-        let parts = str.split(/[eE]/);
-        let base = parts[0];
+export function exponentialToNumber(exponential: number, decimals: number): number {
 
-        return Number(base).toFixed(6)
-    } else {
-        // If the number is already in normal form and potentially very large, return as is
-        return str;
-    }
+    // Ensure the input is a string to handle all cases correctly
+    let str =   floorToDecimalPlaces(Number(exponential.toString())/ 10**decimals);
+
+    return str;
+}
+
+export function floorToDecimalPlaces(num: number) {
+    return Math.floor(num * 10000) / 10000;
 }

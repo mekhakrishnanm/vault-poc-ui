@@ -12,6 +12,7 @@ import {
 import { Providers } from "./providers";
 import { evmNetworks } from "@/lib/wagmi";
 import Header from "./header";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,6 +42,7 @@ export default function RootLayout({
               <Header />
 
               {children}
+        <Toaster />
               </body>
           </DynamicWagmiConnector>
         </Providers>

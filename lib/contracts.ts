@@ -18,6 +18,22 @@ export const ASSET_VAULT_ABI = [
 		type: 'error',
 	},
 	{
+		inputs: [{ internalType: 'address', name: 'target', type: 'address' }],
+		name: 'AddressEmptyCode',
+		type: 'error',
+	},
+	{
+		inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
+		name: 'AddressInsufficientBalance',
+		type: 'error',
+	},
+	{ inputs: [], name: 'FailedInnerCall', type: 'error' },
+	{
+		inputs: [{ internalType: 'address', name: 'token', type: 'address' }],
+		name: 'SafeERC20FailedOperation',
+		type: 'error',
+	},
+	{
 		anonymous: false,
 		inputs: [
 			{ indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
@@ -1052,11 +1068,230 @@ export const ERC20_ABI = [
 	},
 ]
 
+export const VAULT_MANAGER_ABI = [
+	{ inputs: [], stateMutability: 'nonpayable', type: 'constructor' },
+	{ inputs: [], name: 'AccessControlBadConfirmation', type: 'error' },
+	{
+		inputs: [
+			{ internalType: 'address', name: 'account', type: 'address' },
+			{ internalType: 'bytes32', name: 'neededRole', type: 'bytes32' },
+		],
+		name: 'AccessControlUnauthorizedAccount',
+		type: 'error',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+			{
+				indexed: true,
+				internalType: 'bytes32',
+				name: 'previousAdminRole',
+				type: 'bytes32',
+			},
+			{
+				indexed: true,
+				internalType: 'bytes32',
+				name: 'newAdminRole',
+				type: 'bytes32',
+			},
+		],
+		name: 'RoleAdminChanged',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'account',
+				type: 'address',
+			},
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'sender',
+				type: 'address',
+			},
+		],
+		name: 'RoleGranted',
+		type: 'event',
+	},
+	{
+		anonymous: false,
+		inputs: [
+			{ indexed: true, internalType: 'bytes32', name: 'role', type: 'bytes32' },
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'account',
+				type: 'address',
+			},
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'sender',
+				type: 'address',
+			},
+		],
+		name: 'RoleRevoked',
+		type: 'event',
+	},
+	{
+		inputs: [],
+		name: 'ADMIN_ROLE',
+		outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'DEFAULT_ADMIN_ROLE',
+		outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'TRADER_ROLE',
+		outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '_trader', type: 'address' }],
+		name: 'addTrader',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{ internalType: 'address[]', name: '_initialAssets', type: 'address[]' },
+		],
+		name: 'createVault',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{ internalType: 'uint256', name: '_vaultIndex', type: 'uint256' },
+			{ internalType: 'address', name: '_asset1', type: 'address' },
+			{ internalType: 'uint256', name: '_amount1', type: 'uint256' },
+			{ internalType: 'address', name: '_asset2', type: 'address' },
+		],
+		name: 'executeTrade',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'bytes32', name: 'role', type: 'bytes32' }],
+		name: 'getRoleAdmin',
+		outputs: [{ internalType: 'bytes32', name: '', type: 'bytes32' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'getTraderContract',
+		outputs: [
+			{ internalType: 'contract ITradingContract', name: '', type: 'address' },
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{ internalType: 'bytes32', name: 'role', type: 'bytes32' },
+			{ internalType: 'address', name: 'account', type: 'address' },
+		],
+		name: 'grantRole',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{ internalType: 'bytes32', name: 'role', type: 'bytes32' },
+			{ internalType: 'address', name: 'account', type: 'address' },
+		],
+		name: 'hasRole',
+		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+		name: 'managedVaults',
+		outputs: [
+			{ internalType: 'contract AssetVault', name: '', type: 'address' },
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'address', name: '_trader', type: 'address' }],
+		name: 'removeTrader',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{ internalType: 'bytes32', name: 'role', type: 'bytes32' },
+			{ internalType: 'address', name: 'callerConfirmation', type: 'address' },
+		],
+		name: 'renounceRole',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{ internalType: 'bytes32', name: 'role', type: 'bytes32' },
+			{ internalType: 'address', name: 'account', type: 'address' },
+		],
+		name: 'revokeRole',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [{ internalType: 'bytes4', name: 'interfaceId', type: 'bytes4' }],
+		name: 'supportsInterface',
+		outputs: [{ internalType: 'bool', name: '', type: 'bool' }],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [],
+		name: 'tradingContract',
+		outputs: [
+			{ internalType: 'contract ITradingContract', name: '', type: 'address' },
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+]
+
 export const ASSET_VAULT_CONTRACT =
-	'0xb246Aaf5F5C50BF761F6ffb4042F2c2129212d7e' as `0x${string}`
+	'0xa9faBd3507F0bb54e2174d06eC3D32F1803e65D8' as `0x${string}`
+
 export const assetVaultContract = {
 	address: ASSET_VAULT_CONTRACT,
 	abi: ASSET_VAULT_ABI,
+} as const
+
+export const VAULT_MANAGER_CONTRACT =
+	'0xbeD4D4b651927e47cB840D1B3e8Be342925441a7' as `0x${string}`
+
+export const vaultManagerContract = {
+	address: VAULT_MANAGER_CONTRACT,
+	abi: VAULT_MANAGER_ABI,
 } as const
 
 export const TOKENS_LIST = [
@@ -1096,3 +1331,5 @@ export const TOKENS_LIST = [
 	// 	decimal: 18,
 	// },
 ]
+
+export const TRADER_ROLE = '0xfacaf2747a7486cf5730e9265973fb54447d3ace6e7e4711f6360826b0731941'

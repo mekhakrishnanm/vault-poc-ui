@@ -3,6 +3,7 @@ import Image from "next/image";
 import { DynamicWidget } from "../lib/dynamic";
 import { useAccount,  } from "wagmi";
 import { useRouter } from "next/navigation";
+import { ASSET_VAULT_CONTRACT } from "@/lib/contracts";
 
 export default function Home() {
   const { address } = useAccount()
@@ -22,6 +23,7 @@ export default function Home() {
 	<div className='flex justify-center gap-x-2 text-sm items-center'>Powered By
 	<Image src={'/home.png'} className="z-0 object-scale-down" width={100} height={20}  alt="Home"></Image>
 	</div>
+			<div className='text-xs mt-4 font-medium'>Asset Vault Contract: <a className='underline text-[#064dea]' target='_blank' href={`https://polygonscan.com/address/${ASSET_VAULT_CONTRACT}#code`}>{ASSET_VAULT_CONTRACT}</a> </div>
 </main>
     // <main className="flex min-h-screen flex-col items-center justify-between p-24">
     //   <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

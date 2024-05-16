@@ -8,7 +8,7 @@ import {
 	useWriteContract,
 	useWaitForTransactionReceipt,
 } from 'wagmi'
-import { TOKENS_LIST, assetVaultContract } from '@/lib/contracts'
+import { ASSET_VAULT_CONTRACT, TOKENS_LIST, assetVaultContract } from '@/lib/contracts'
 import { useState } from 'react'
 import Balance from '../../components/balance'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -18,7 +18,7 @@ export default function User() {
 
 	const [tokenId, setTokenId] = useState<any>(TOKENS_LIST[0])
 	const [tokenAmount, setTokenAmount] = useState<number>(0)
-	const { data: hash, writeContract } = useWriteContract()
+	const { data: hash, writeContract,  } = useWriteContract()
 	const { data: hash1, writeContract: writeContract1 } = useWriteContract()
 	const result = useReadContracts({
 		contracts: [
@@ -222,6 +222,7 @@ export default function User() {
 								alt="Home"
 							></Image>
 						</div>
+			<div className='text-xs mt-4 font-medium'>Asset Vault Contract: <a className='underline text-[#064dea]' target='_blank' href={`https://polygonscan.com/address/${ASSET_VAULT_CONTRACT}#code`}>{ASSET_VAULT_CONTRACT}</a> </div>
 					</div>
 				</TabsContent>
 				<TabsContent value="withdraw">
@@ -359,6 +360,7 @@ export default function User() {
 								alt="Home"
 							></Image>
 						</div>
+			<div className='text-xs mt-4 font-medium'>Asset Vault Contract: <a className='underline text-[#064dea]' target='_blank' href={`https://polygonscan.com/address/${ASSET_VAULT_CONTRACT}#code`}>{ASSET_VAULT_CONTRACT}</a> </div>
 					</div>
 				</TabsContent>
 			</Tabs>

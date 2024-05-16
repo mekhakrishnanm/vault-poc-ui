@@ -5,18 +5,44 @@ import {
 	useAccount,
 	useWaitForTransactionReceipt,
 	useWriteContract,
+	useReadContract,
 } from 'wagmi'
-import { TOKENS_LIST, assetVaultContract } from '@/lib/contracts'
+import { ASSET_VAULT_CONTRACT, TOKENS_LIST, TRADER_ROLE, assetVaultContract, vaultManagerContract } from '@/lib/contracts'
 import { useEffect, useState } from 'react'
 import Balance from '../../components/balance'
 import { useToast } from '@/components/ui/use-toast'
+import { useRouter } from 'next/navigation'
 
 export default function Trader() {
 	const { address } = useAccount()
 	const { toast } = useToast()
+	const router = useRouter()
 
 	const [tokenId, setTokenId] = useState<any>(TOKENS_LIST[0])
 	const [tokenAmount, setTokenAmount] = useState<number>(0)
+
+	const { data: hasTraderRole } = useReadContract({
+		...vaultManagerContract,
+		functionName: 'hasRole',
+		args: [
+			TRADER_ROLE,
+			address,
+		],
+	})
+	
+	useEffect(() => {
+		console.log("🚀 ~ useEffect ~ hasTraderRole:", hasTraderRole)
+		if (!hasTraderRole && address && address.length) {
+			toast({
+				variant: 'destructive',
+				title: 'Unauthorized',
+				description: 'You are not authorized to trade on TradeX',
+			})
+			router.push('/')
+		}
+	}, [hasTraderRole, toast, router, address])
+
+
 	const { data: hash, writeContract, failureReason } = useWriteContract()
 
 	useEffect(() => {
@@ -155,6 +181,7 @@ export default function Trader() {
 					alt="Home"
 				></Image>
 			</div>
+			<div className='text-xs mt-4 font-medium'>Asset Vault Contract: <a className='underline text-[#064dea]' target='_blank' href={`https://polygonscan.com/address/${ASSET_VAULT_CONTRACT}#code`}>{ASSET_VAULT_CONTRACT}</a> </div>
 		</main>
 		// <main className="flex min-h-screen flex-col items-center justify-between p-24">
 		//   <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

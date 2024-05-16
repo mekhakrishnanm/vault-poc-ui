@@ -260,28 +260,28 @@ export default function User() {
 												className="flex flex-col w-36 justify-between items-center py-2 px-4 text-base text-black font-medium shadow-lg border rounded-lg bg-[#f0f0f0] hover:bg-[#f0f0f0]/80 mx-2"
 											>
 												{res &&
-												res.length &&
-												res[index ] &&
-												res[index]?.result &&
-												res[index]?.result[0] ? (
-													<div className="font-bold text-lg">
-														{(
-															Number(res[index].result[0]) /
-															10 ** token.decimal
-														).toFixed(4)}
-													</div>
-												) : (
-													<div className="font-bold text-lg">0</div>
-												)}
+													res.length &&
+													res[index] &&
+													res[index]?.result &&
+													((res[index] as unknown as any)?.result[0] as number) ? (
+														<div className="font-bold text-lg">
+															{(
+																Number((res[index] as any).result[0]) /
+																10 ** token.decimal
+															).toFixed(4)}
+														</div>
+													) : (
+														<div className="font-bold text-lg">0</div>
+													)}
 												<span className="text-sm">{token.name}</span>
 												{res &&
 												res.length &&
 												res[index] &&
 												res[index]?.result &&
-												res[index]?.result[1] ? (
+												(res[index] as unknown as any)?.result[1] ? (
 													<div className="text-xs mt-2">
 														{(
-															Number(res[index].result[1]) /
+															Number((res[index] as unknown as any).result[1]) /
 															10 ** token.decimal
 														).toFixed(4)}
 													</div>

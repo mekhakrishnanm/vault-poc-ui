@@ -22,12 +22,6 @@ export default function User() {
 	const { data: hash1, writeContract: writeContract1 } = useWriteContract()
 	const result = useReadContracts({
 		contracts: [
-			// User Points
-			{
-				...assetVaultContract,
-				functionName: 'user',
-				args: [address as `0x${string}`],
-			},
 			// WMATIC Balance
 			{
 				...assetVaultContract,
@@ -45,6 +39,17 @@ export default function User() {
 				...assetVaultContract,
 				functionName: 'estimateAssetValueInUSD',
 				args: [TOKENS_LIST[2].contract as `0x${string}`],
+			},
+			// User Points
+			{
+				...assetVaultContract,
+				functionName: 'user',
+				args: [address as `0x${string}`],
+			},
+			// User Points
+			{
+				...assetVaultContract,
+				functionName: 'estimateVaultValue',
 			},
 		],
 	})
@@ -229,9 +234,19 @@ export default function User() {
 								<div className=" my-8 flex justify-between items-center py-2 px-4 text-sm text-[#4779ff] font-medium shadow-md border rounded-lg border shadow-[#4779ff]/30 border-[#4779ff] bg-[white] mx-2">
 									<span>Your Vault Points</span>
 									<div className="flex items-center">
-										{res && res.length && res[0] && (
+										{res && res.length && res[3] && (
 											<span className="mr-2">
-												{Number(res[0].result) / 10 ** 18}
+												{Number(res[3].result) / 10 ** 18}
+											</span>
+										)}
+									</div>
+								</div>
+								<div className=" my-8 flex justify-between items-center py-2 px-4 text-sm text-[#4779ff] font-medium shadow-md border rounded-lg border shadow-[#4779ff]/30 border-[#4779ff] bg-[white] mx-2">
+									<span>Total Vault Points</span>
+									<div className="flex items-center">
+										{res && res.length && res[4] && (
+											<span className="mr-2">
+												{Number(res[4].result) / 10 ** 18}
 											</span>
 										)}
 									</div>
@@ -246,12 +261,12 @@ export default function User() {
 											>
 												{res &&
 												res.length &&
-												res[index + 1] &&
-												res[index + 1]?.result &&
-												res[index + 1]?.result[0] ? (
+												res[index ] &&
+												res[index]?.result &&
+												res[index]?.result[0] ? (
 													<div className="font-bold text-lg">
 														{(
-															Number(res[index + 1].result[0]) /
+															Number(res[index].result[0]) /
 															10 ** token.decimal
 														).toFixed(4)}
 													</div>
@@ -261,19 +276,19 @@ export default function User() {
 												<span className="text-sm">{token.name}</span>
 												{res &&
 												res.length &&
-												res[index + 1] &&
-												res[index + 1]?.result &&
-												res[index + 1]?.result[1] ? (
+												res[index] &&
+												res[index]?.result &&
+												res[index]?.result[1] ? (
 													<div className="text-xs mt-2">
 														{(
-															Number(res[index + 1].result[1]) /
+															Number(res[index].result[1]) /
 															10 ** token.decimal
 														).toFixed(4)}
 													</div>
 												) : (
 													<div className="text-xs mt-2">0</div>
 												)}
-												{/* <div className='text-xs mt-3'>${((Number(res[index + 1].result[1]))/10**18).toFixed(2)}</div> */}
+												{/* <div className='text-xs mt-3'>${((Number(res[index].result[1]))/10**18).toFixed(2)}</div> */}
 											</div>
 										))
 									}

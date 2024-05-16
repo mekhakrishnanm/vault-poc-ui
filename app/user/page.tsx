@@ -181,10 +181,10 @@ export default function User() {
 										<Balance token={(() => tokenId)()} isContract={false} />
 									</div>
 									<button
+										type="submit"
 										disabled={!writeContract || isLoading}
-										className="py-2 w-48 px-4 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2"
+										className="py-2 w-48 px-4 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2 disabled:shadow-none disabled:bg-[#4779ff]/40 disabled:pointer-events-none"
 									>
-										{/* Deposit */}
 										{isLoading ? 'Depositing...' : 'Deposit'}
 									</button>
 								</form>
@@ -306,22 +306,28 @@ export default function User() {
 												</option>
 											))}
 										</select>
-
-										{/* <h3 className="mt-5 text-sm font-medium ml-3 mb-2">
-											Enter Amount
-										</h3>
-										<input
-											name="amount"
-											className="w-80 py-2 px-4 text-sm text-black font-medium shadow-lg border rounded-lg bg-[#f0f0f0] hover:bg-[#f0f0f0]/80 mx-2"
-											type="number"
-											placeholder="Amount"
-										/>
-										<Balance token={(() => tokenId)()} /> */}
 									</div>
-									<button className="py-2 w-48 px-4 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2">
-										Withdraw
+									<button
+										type="submit"
+										disabled={!writeContract1 || isLoading1}
+										className="py-2 w-48 px-4 text-sm text-white font-medium shadow-lg border rounded-lg bg-[#4779ff] hover:bg-[#4779ff]/80 mx-2 disabled:shadow-none disabled:bg-[#4779ff]/40 disabled:pointer-events-none"
+									>
+										{isLoading1 ? 'Withdrawing...' : 'Withdraw'}
 									</button>
 								</form>
+								{isSuccess1 && (
+									<div className="text-xs mt-4">
+										Successfully Withdrawn Token!
+										<div>
+											<a
+												className="underline text-[#064dea]"
+												href={`https://polygonscan.io/tx/${hash1}`}
+											>
+												Polygon Scan
+											</a>
+										</div>
+									</div>
+								)}
 							</div>
 						) : (
 							<div className="z-10 mx-auto mb-4 flex justify-center">

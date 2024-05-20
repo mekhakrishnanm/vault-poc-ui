@@ -18,20 +18,74 @@ export const ASSET_VAULT_ABI = [
 		type: 'error',
 	},
 	{
-		inputs: [{ internalType: 'address', name: 'target', type: 'address' }],
-		name: 'AddressEmptyCode',
-		type: 'error',
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'asset',
+				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'amount',
+				type: 'uint256',
+			},
+		],
+		name: 'AssetDeposited',
+		type: 'event',
 	},
 	{
-		inputs: [{ internalType: 'address', name: 'account', type: 'address' }],
-		name: 'AddressInsufficientBalance',
-		type: 'error',
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'asset1',
+				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'amount1',
+				type: 'uint256',
+			},
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'asset2',
+				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'amount2',
+				type: 'uint256',
+			},
+		],
+		name: 'AssetTraded',
+		type: 'event',
 	},
-	{ inputs: [], name: 'FailedInnerCall', type: 'error' },
 	{
-		inputs: [{ internalType: 'address', name: 'token', type: 'address' }],
-		name: 'SafeERC20FailedOperation',
-		type: 'error',
+		anonymous: false,
+		inputs: [
+			{
+				indexed: true,
+				internalType: 'address',
+				name: 'asset',
+				type: 'address',
+			},
+			{
+				indexed: false,
+				internalType: 'uint256',
+				name: 'amount',
+				type: 'uint256',
+			},
+			{ indexed: true, internalType: 'address', name: 'user', type: 'address' },
+		],
+		name: 'AssetWithdrawn',
+		type: 'event',
 	},
 	{
 		anonymous: false,
@@ -1196,15 +1250,6 @@ export const VAULT_MANAGER_ABI = [
 		type: 'function',
 	},
 	{
-		inputs: [],
-		name: 'getTraderContract',
-		outputs: [
-			{ internalType: 'contract ITradingContract', name: '', type: 'address' },
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
 		inputs: [
 			{ internalType: 'bytes32', name: 'role', type: 'bytes32' },
 			{ internalType: 'address', name: 'account', type: 'address' },
@@ -1267,27 +1312,18 @@ export const VAULT_MANAGER_ABI = [
 		stateMutability: 'view',
 		type: 'function',
 	},
-	{
-		inputs: [],
-		name: 'tradingContract',
-		outputs: [
-			{ internalType: 'contract ITradingContract', name: '', type: 'address' },
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
 ]
 
+export const VAULT_MANAGER_CONTRACT =
+	'0x822c103d1d3b07d24a4eb6cc0f87de44483aaaa5' as `0x${string}`
+
 export const ASSET_VAULT_CONTRACT =
-	'0xa9faBd3507F0bb54e2174d06eC3D32F1803e65D8' as `0x${string}`
+	'0x4211A74B1077Fb097ED761BEB4899c09922D41B3' as `0x${string}`
 
 export const assetVaultContract = {
 	address: ASSET_VAULT_CONTRACT,
 	abi: ASSET_VAULT_ABI,
 } as const
-
-export const VAULT_MANAGER_CONTRACT =
-	'0xbeD4D4b651927e47cB840D1B3e8Be342925441a7' as `0x${string}`
 
 export const vaultManagerContract = {
 	address: VAULT_MANAGER_CONTRACT,
@@ -1332,4 +1368,5 @@ export const TOKENS_LIST = [
 	// },
 ]
 
-export const TRADER_ROLE = '0xfacaf2747a7486cf5730e9265973fb54447d3ace6e7e4711f6360826b0731941'
+export const TRADER_ROLE =
+	'0xfacaf2747a7486cf5730e9265973fb54447d3ace6e7e4711f6360826b0731941'
